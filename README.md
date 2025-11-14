@@ -1,11 +1,11 @@
 <div align="center">
-    <img src="https://github.com/chris-kck/Sous-Chef/blob/master/public/img/logo-dark.png" height="60">
+   
     <p align="center">
         <p>My First Nodejs App - Your side chef that assists you eat and cook food you love.</p>
     </p>
 </div>
 
-## Mythe F;avour of taste Web Application Using Nodejs
+## the Flavour of taste Web Application Using Nodejs
 
 This is my first application using Nodejs. Improving my skills each time.
 
