@@ -22,9 +22,7 @@ This is a webapp that connects to the Spoonacular API to give curarted recipes, 
 + Profile to save your calorie needs, allergens, diet info and meal-plans.
 
 
-### This is the directory structure of the project:
 
-Github Repository: <a href="https://github.com/chris-kck/Sous-Chef">Click here</a>
 
 root/ ``` project root directory```<br>
 ├─ bin/ ``` web server launch & project startup```<br> 
