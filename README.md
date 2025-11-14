@@ -1,9 +1,4 @@
-<div align="center">
-   
-    <p align="center">
-        <p>My First Nodejs App - Your side chef that assists you eat and cook food you love.</p>
-    </p>
-</div>
+
 
 ## the Flavour of taste Web Application Using Nodejs
 
