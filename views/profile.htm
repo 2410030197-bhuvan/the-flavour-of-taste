@@ -1,0 +1,10 @@
+{% extends 'layout.htm' %}
+{% set active_page ="profile" %}
+
+{% block content %}
+  <h1>Welcome, {{ username|default('Guest...') }}</h1>
+  <h3>Section coming soon...</h3>
+
+  <h4>Check calorie needs: whether you want to gain, lost or maintain weight: <a href="https://www.calculators.org/health/calorie.php" target="_blank">Click here</a></h4>
+  <h4> Enter Calories Need, get Auto-generated Meal-Plan for </h4>
+{% endblock %}

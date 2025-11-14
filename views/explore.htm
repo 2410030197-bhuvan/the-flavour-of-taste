@@ -1,0 +1,159 @@
+{% extends 'layout.htm' %}
+{% set active_page ="explore" %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-headline">
+        <div class="panel-heading">
+          <h3 class="panel-title">Exploration of delicious recipes around the globe</h3>
+          <p class="panel-subtitle">Search for recipes according to your criteria of choice</p>
+
+        </div>
+        <div class="panel-body">
+        <h4>Did you know that {{ trivia }}</h4>
+          <div class="container">
+            <form class="form-inline" action="/explore" style="width: 100%">
+              <span style="display:inline-block">
+              <label  style="display:block" for="recipe" class="mb-2 mr-sm-2">Recipe:</label>
+              <input type="text" class="form-control mb-2 mr-sm-2" id="recipe" placeholder="Enter recipe name" name="recipe">
+              </span>
+
+
+              <span style="display:inline-block">
+                <label style="display:block" for="cuisine" class="mb-2 mr-sm-2">Cuisine:</label>
+                <select name="cuisine" id="cuisine" class="form-control">
+                  <option value=""> --select a cuisine-- </option>
+                  <option value="american">American</option>
+                  <option value="british">British</option>
+                  <option value="cajun">Cajun</option>
+                  <option value="caribbean">Caribbean</option>
+                  <option value="chinese">Chinese</option>
+                  <option value="french">French</option>
+                  <option value="italian">Italian</option>
+                  <option value="mexican">Mexican</option>
+                </select>
+              </span>
+
+              <span style="display:inline-block">
+                <label style="display:block" for="diet" class="mb-2 mr-sm-2">Diet:</label>
+                <select name="diet" id="diet" class="form-control">
+                  <option value=""> --select a diet-- </option>
+                  <option value="Lacto Vegeterian">Lacto Vegeterian</option>
+                  <option value="Ovo Vegeterian">Ovo Vegeterian</option>
+                  <option value="Pescetarian">Pescetarian</option>
+                  <option value="Primal">Primal</option>
+                  <option value="Vegan">Vegan</option>
+                  <option value="Ketogenic">Ketogenic</option>
+                </select>
+              </span>
+
+              <span style="display:inline-block">
+                <label style="display:block" for="allergens" class="mb-2 mr-sm-2">Allergens:</label>
+                <select name="allergens" id="allergens" class="form-control">
+                  <option value=""> --select a allergens-- </option>
+                  <option value="dairy">Dairy</option>
+                  <option value="egg">Egg</option>
+                  <option value="gluten">Gluten</option>
+                  <option value="peanut">Peanut</option>
+                  <option value="shellfish">Shellfish</option>
+                  <option value="wheat">Wheat</option>
+                </select>
+              </span>
+              <label class="fancy-checkbox" style="display:inline-block">
+                <input type="checkbox" name="video" >
+                <span>Search Videos</span>
+              </label>
+
+              <button type="submit" formmethod="post" class="btn btn-primary mb-2">Explore</button>
+            </form>
+          </div>
+          </div>
+
+        <!-- Check if video response or recipe response returned and render relevant information -->
+
+        {% if searchRes|length > 0  %}
+
+          {% for result in searchRes %}
+            <div class="col-md-3">
+              <div class="card">
+                <a href="{{ result.sourceUrl}}" target="_blank">
+                <img height="" src="{%  if result.image %} https://spoonacular.com/recipeImages/{{ result.image}} {% else %} /img/food.jpg {% endif %}" alt="Recipe Image" style="width:100%">
+                </a>
+                <div class="rcontainer text-center">
+                  <button type="button" class="btn btn-danger btn-toastr" value="{{result.id}}" onclick="addFav(this.value)" >Add to Favourites<i class="fa fa-heart"> </i> </button>
+                  <br><i class="fa fa-stopwatch"></i> {{ result.readyInMinutes }} Mins
+                  <i class="fa fa-users"></i> {{ result.servings }} ppl
+                  <p><b>{{ result.title}}</b></p>
+                  <p></p>
+                </div>
+              </div>
+            </div>
+
+          {% endfor %}
+        {% elif vidsearchRes|length > 0%}
+
+          {% for video in vidsearchRes %}
+            <div class="col-md-3">
+              <div class="card">
+                <a href="https://youtube.com/watch?v={{ video.youTubeId}}" target="_blank">
+                  <img height="" src="{%  if video.thumbnail %} {{ video.thumbnail}} {% else %} /img/food.jpg {% endif %}" alt="Recipe Video" style="width:100%">
+                </a>
+                <div class="rcontainer text-center">
+                  <br><i class="fab fa-youtube"></i> {{ (video.length*0.016)|round(1) }} Minutes
+                  <p><b>{{ video.shortTitle}}</b></p>
+                </div>
+              </div>
+            </div>
+
+          {% endfor %}
+
+
+          {% else %}
+          <h3 class="text-center">Sorry, No Results Found</h3>
+        {% endif %}
+          <!-- Results pagination -->
+          <nav class="text-center" aria-label="Page navigation">
+            <ul class="pagination">
+              <li>
+                <a href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li>
+                <a href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+
+        {{ super() }}
+        </div>
+      </div>
+    </div>
+
+  <style>
+    .card img {
+      height: 150px;
+    }
+    html{
+      overflow-x:hidden
+    }
+  </style>
+
+  <script>
+    function addFav(recID) {
+      $.post('/favourites', {recID},
+              function(returnedData){
+                alert(returnedData);
+              });
+    }
+  </script>
+
+
+{% endblock %}
